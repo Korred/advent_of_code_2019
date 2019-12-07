@@ -57,7 +57,7 @@ def run_code(program, inp):
         # read input and save
         if op_code == 3:
             # read from input and save
-            mem[mem[ip + 1]] = inp
+            mem[mem[ip + 1]] = inp.pop(0)
 
             # increase instruction pointer by 2
             ip += 2
@@ -123,4 +123,4 @@ def run_code(program, inp):
     return mem
 
 
-run_code(memory, 5)
+run_code(memory, [5])
