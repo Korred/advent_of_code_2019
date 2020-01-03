@@ -14,12 +14,16 @@ for line in raw_data:
         instructions.append(('c', int(line.split()[1])))
         continue
 
-deck = list(range(10007))
+deck = list(range(229))
 
-for i in instructions:
+seen = []
+print(deck)
+input()
+
+for e, i in enumerate(instructions):
+
     if i[0] == 'r':
         deck.reverse()
-        continue
 
     if i[0] == 'i':
         new_deck = ['0'] * len(deck)
@@ -41,6 +45,10 @@ for i in instructions:
     if i[0] == 'c':
         num = i[1]
         deck = deck[num:] + deck[:num]
-        continue
 
-print(deck.index(2019))
+    s = tuple(deck)
+    if s in seen:
+        print(e, "seen")
+        print(s)
+    else:
+        seen.append(s)

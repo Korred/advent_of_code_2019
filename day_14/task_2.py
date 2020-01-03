@@ -45,9 +45,7 @@ def ore_needed(amt, root):
         if amt <= react_lkp[chem]['amt']:
             mul = 1
         elif amt > react_lkp[chem]['amt']:
-            mul = 1
-            while amt > (react_lkp[chem]['amt'] * mul):
-                mul += 1
+            mul = (amt // react_lkp[chem]['amt']) + 1
 
         for a, inp in react_lkp[chem]['inputs']:
             if inp == 'ORE':
@@ -68,14 +66,18 @@ def ore_needed(amt, root):
     return ore_needed
 
 
-# gen ordered tree
+# gen ordered tree / topologically sorted
 gen_order('FUEL')
 
-'''
-for k in react_lkp:
-    print(k, react_lkp[k])
-    print()
-'''
-
-print(ore_needed(1, 'FUEL'))
+fuel = 1
+target = 1000000000000
+while True:
+    on = ore_needed(fuel, 'FUEL')
+    if on < target:
+        print(f'Diff: {target-on}')
+        # If n ore makes m fuel, then 1e12 ore makes at least (m * 1e12 / n) fuel, and this number is a pretty good estimate to use at the next iteration.
+        fuel = max(fuel + 1, (fuel * target) // on)
+    else:
+        print(fuel)
+        break
 
